@@ -1,21 +1,37 @@
 from django.shortcuts import render
 from baseApp.models import DisplayStock
-
+from datetime import date, datetime
 # Create your views here.
+
+# def finddate():
+#     disobject=DisplayStock.objects.values('date').distinct()
+#     for i in disobject:
+#         print(i)
+# Jan. 22, 2024
+
+
 def homeview(request):
-    price= request.GET.get('price')
-    m_cap=request.GET.get('mcap')
-    if price:
-        data=DisplayStock.objects.all().order_by('current_price')
-    elif m_cap:
-        data=DisplayStock.objects.all().order_by('name__market_cap')
+    dateobject = DisplayStock.objects.values('date').distinct()
+    price = request.GET.get('price')
+    m_cap = request.GET.get('mcap')
+
+    if request.method == 'POST':
+        selected_date = request.POST.get('dropdown')
+        selected_date = datetime.strptime(selected_date, '%b. %d, %Y').date()
+        data = DisplayStock.objects.filter(date=selected_date)
     else:
-        data=DisplayStock.objects.all()
+        if price:
+            data = DisplayStock.objects.filter(
+                date=date.today()).order_by('current_price')
+        elif m_cap:
+            data = DisplayStock.objects.filter(
+                date=date.today()).order_by('market_cap')
+        else:
+            data = DisplayStock.objects.filter(date=date.today())
 
+    context = {
+        'data': data[:50],
+        'dateobject': dateobject[::-1]
 
-    
-    context={
-        'data':data,
-  
     }
-    return render(request,'base/home.html',context=context)
+    return render(request, 'base/home.html', context=context)
