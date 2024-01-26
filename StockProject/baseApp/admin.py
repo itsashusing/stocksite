@@ -19,7 +19,7 @@ class StockAdmin(admin.ModelAdmin):
     list_display=['id','stock_name','bse_code','nse_code']
 admin.site.register(Stock,StockAdmin)
 class DisplayStockAdmin(admin.ModelAdmin):
-    list_display=['id','date','name','current_price','pre_price']
+    list_display=['id','date','name','current_price']
 
 admin.site.register(DisplayStock,DisplayStockAdmin)
 
