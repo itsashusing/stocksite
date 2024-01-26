@@ -8,7 +8,7 @@ def homeview(request):
     dateobject = DisplayStock.objects.values('date').distinct()
     price = request.GET.get('price')
     m_cap = request.GET.get('mcap')
-    
+
     stockobj=DisplayStock.objects.all().order_by('-date').first()
 
     if request.method == 'POST':
@@ -28,6 +28,31 @@ def homeview(request):
 
     context = {
         'data': data[:50],
+        'dateobject': dateobject[::-1]
+
+    }
+    return render(request, 'base/home.html', context=context)
+
+
+def lmarket_cap(request):
+    dateobject = DisplayStock.objects.values('date').distinct()
+    stockobj=DisplayStock.objects.all().order_by('-date').first()
+
+    data = DisplayStock.objects.filter(date=stockobj.date).order_by('market_cap')
+    context = {
+        # 'data': data[:50],
+        'dateobject': dateobject[::-1]
+
+    }
+    return render(request, 'base/home.html', context=context)
+
+def rmarket_cap(request):
+    dateobject = DisplayStock.objects.values('date').distinct()
+    stockobj=DisplayStock.objects.all().order_by('-date').first()
+
+    data = DisplayStock.objects.filter(date=stockobj.date).order_by('-market_cap')
+    context = {
+        # 'data': data[:50],
         'dateobject': dateobject[::-1]
 
     }
