@@ -9,7 +9,7 @@ from baseApp.models import Sector, IndustrySector,Stock,DisplayStock
 from django.db import IntegrityError
 
 # read csv file
-df = pd.read_csv(r"C:\Users\Ashutosh Singh\Downloads\query-results (2).csv")
+df = pd.read_csv(r"C:\Users\Ashutosh Singh\Downloads\query-results (3).csv")
 #remove nan values
 df = df.dropna()
 
@@ -34,7 +34,7 @@ if value == 'yes':
     print('Sectors Updated successfully')
 
 # store Industries
-value = input('Want to edit industries(yes/no): ')
+value = input('Want to edit industriesj(yes/no): ')
 if value == 'yes':
     for industry in industries:
         sector = Sector.objects.get(name=industry)

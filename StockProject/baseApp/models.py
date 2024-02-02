@@ -28,7 +28,7 @@ class StockData(models.Model):
 class DisplayStock(models.Model):
     date = models.DateField(auto_now=True)
     name = models.ForeignKey(Stock, on_delete=models.CASCADE)
-    market_cap = models.CharField(max_length=150)
+    market_cap = models.FloatField()
     current_price = models.FloatField()
 
     def profit(self):
