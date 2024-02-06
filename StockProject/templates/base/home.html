@@ -1,25 +1,25 @@
 {% extends 'base/base.html' %}
 {% block bodyblock %}
-<div class="container">
-  <!-- <h1 class="text-center"> How's the stock </h1> -->
-  <h1 class="display-4 text-center">How's the stock </h1>
+<div class="container mt-4">
+  {% if price %}
+  <h1 class=" text-center ">Largest Indian companies by price </h1>
+  {% else %}
+  <h1 class=" text-center ">Largest Indian companies by market capitalization. <span style="font-size: small;">
+    {% if p_date %} {{p_date}} {% endif %}
+  </span> </h1>
+  {% endif %}
 </div>
-<div class="container-sm">
-  <div class="jumbotron ">
-
-    <a href="/?price=price" class="nav-link badge text-bg-warning">Price</a>
-    <a href="/?mcap=mcap" class=" nav-link badge text-bg-warning">Market Capitalization</a>
-    <form method="post">
-      {% csrf_token %}
-      <label for="dropdown">Choose an Date:</label>
-      <select id="dropdown" name="dropdown">
-        {% for obj in dateobject %}
-        <option value="{{obj.date}}">{{obj.date}}</option>
-        {% endfor %}
-      </select>
-      <button type="submit">submit</button>
-    </form>
-    <div>
+<div class="container">
+  <div class="container-fluid row mt-4">
+    <div class="col-2">
+      <form method="post">
+        <h4>Select a Date</h4>
+        {% csrf_token %}
+        <input type="date" name="dropdown" id="dateDropdown" min="2024-01-22" {% if p_date %} value="{{p_date}}" {% endif %}>
+        <div><button type="submit" class="btn btn-primary mt-2">Find</button></div>
+      </form>
+    </div>
+    <div class="container col-10">
       <table class="table">
         <thead>
           <tr>
@@ -28,8 +28,12 @@
             <th scope="col">BSC code</th>
             <th scope="col">NSE code</th>
 
-            <th scope="col">  Market Cap</th>
-            <th scope="col"> Price  </th>
+            <th scope="col">
+              <a class="nav-link " href="/?mcap=mcap">Market Capitalization <i class="bi bi-arrow-down-short"></i></a>
+            </th>
+            <th scope="col">
+              <a class="nav-link " href="/?price=price">Price<i class="bi bi-arrow-down-short"></i></a>
+            </th>
             <th scope="col">P/L%</th>
           </tr>
         </thead>
@@ -43,13 +47,12 @@
             <td>{{stock.market_cap}} </td>
             <td>{{stock.current_price}}</td>
             <td>{{stock.profit}} %</td>
-            <td>{{stock.date}} </td>
+            <!-- <td>{{stock.date}} </td> -->
           </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
   </div>
-
 </div>
 {% endblock %}

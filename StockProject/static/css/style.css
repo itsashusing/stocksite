@@ -1,0 +1,24 @@
+
+#dateDropdown {
+    border: 1px solid white;
+}
+
+* {
+    background-color: #f4f4f4;
+    font-family: 'Rubik', sans-serif;
+}
+
+h1{
+    padding-bottom: 2px;
+    color: rgb(104, 110, 116);
+}
+
+.container {
+    width: 80%;
+    display: block;
+    margin: auto;
+
+}
+th{
+    color: rgb(56, 58, 61);
+}
