@@ -5,8 +5,8 @@ from datetime import datetime, date
 # Create your views here.
 
 
-def homeview(request):
-    p_date = None
+def HomeView(request):
+    
     selected_date = DisplayStock.objects.values('date').distinct().last()
     selected_date = selected_date.get('date')
 
@@ -14,14 +14,17 @@ def homeview(request):
     m_cap = request.GET.get('mcap')
 
     stockobj = DisplayStock.objects.all().order_by('-date').first()
+    p_date = stockobj.date
+    request.session['postdate']= p_date.isoformat()
 
+    print(p_date)
     if request.method == 'POST':
         p_date = request.POST.get('dropdown')
         p_date = datetime.strptime(p_date, '%Y-%m-%d').date()
 
         request.session['postdate'] = p_date.isoformat()
         p_date = request.session.get('postdate')
-        print(p_date, type(p_date))
+
 
         data = DisplayStock.objects.filter(date=p_date)
 
@@ -36,8 +39,11 @@ def homeview(request):
         data = DisplayStock.objects.filter(
             date=p_date).order_by('market_cap')
     else:
-        data = DisplayStock.objects.all().order_by('-market_cap')
+        data = DisplayStock.objects.filter(date=stockobj.date).order_by('-market_cap')
+        p_date=stockobj.date
+
     request.session.set_expiry(300)
+
     context = {
         'data': data[:50],
         'p_date': p_date,

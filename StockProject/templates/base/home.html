@@ -24,6 +24,7 @@
         <thead>
           <tr>
             <th scope="col">Rank</th>
+            <th>Profile</th>
             <th scope="col">Name</th>
             <th scope="col">BSC code</th>
             <th scope="col">NSE code</th>
@@ -41,13 +42,14 @@
           {% for stock in data %}
           <tr>
             <th scope="row">{{forloop.counter }}</th>
+            <td> <img src="{{stock.name.photo}}" > </td>
             <td>{{stock.name.stock_name}} <br> <span><small> {{stock.name.industry.sector.name}}</small></span></td>
             <td>{{stock.name.bse_code}} </td>
             <td>{{stock.name.nse_code}} </td>
             <td>{{stock.market_cap}} </td>
             <td>{{stock.current_price}}</td>
             <td>{{stock.profit}} %</td>
-            <!-- <td>{{stock.date}} </td> -->
+             <td>{{stock.date}} </td> 
           </tr>
           {% endfor %}
         </tbody>
